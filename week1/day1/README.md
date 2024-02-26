@@ -146,7 +146,10 @@ print(tx_hash.hex())
 
 ### Gas
 
-- Gas, gasPrice, gasLimit, maxFeePerGas, maxPriorityFeePerGas
+- GasPrice
+- GasLimit
+- MaxFeePerGas
+- MaxPriorityFeePerGas
 
 ## Blocks
 
