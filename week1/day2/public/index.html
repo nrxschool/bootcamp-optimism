@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>⬆️ Uploader</title>
+</head>
+
+<body>
+    <h2>Upload de Arquivo</h2>
+
+    <!-- FORMS -->
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="arquivo" required>
+        <button type="button" onclick="uploadFile()">Enviar Arquivo</button>
+    </form>
+
+    <!-- PROGRESS BAR -->
+    <div>
+        <progress id="uploadProgress" value="0" max="100" style="width:100%;"></progress>
+    </div>
+
+    <!-- UPLOADER JAVASCRIPT -->
+    <script>
+        function uploadFile() {
+            var form = document.getElementById('uploadForm');
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+
+            // Configura a barra de progresso
+            var progress = document.getElementById('uploadProgress');
+            xhr.upload.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    var percentComplete = (e.loaded / e.total) * 100;
+                    progress.value = percentComplete;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    alert("✅ Upload completo!");
+                    progress.value = 0;
+                } else {
+                    alert("🚨 Erro no upload: " + xhr.status);
+                }
+            };
+
+            xhr.open('POST', '/upload', true);
+            xhr.send(formData);
+        }
+    </script>
+</body>
+
+</html>

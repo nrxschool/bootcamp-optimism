@@ -156,7 +156,7 @@ print(tx_hash.hex())
 ### Anatomia de um Bloco
 
 ```python
-block0 = {
+genesis = {
     "hash": "0xdc0818cf78f21a8e70579cb46a43643f78291264dda342ae31049421c82d21ae",
     "parentHash": "0x0",
     "transactions": [],
@@ -177,7 +177,7 @@ block3 = {
     "transactions": [],
 }
 
-blockchain = [block0, block1, block2, block3]
+blockchain = [genesis, block1, block2, block3]
 ```
 
 ### Merkle Tree

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Página com Contador</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f0f0f0;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Contador com JavaScript</h1>
+    <p id="contador">Contagem: 0</p>
+    <button id="botaoContador">Clique aqui!</button>
+</div>
+
+<script>
+    // Seleciona o elemento do parágrafo e o botão
+    const contador = document.getElementById("contador");
+    const botaoContador = document.getElementById("botaoContador");
+    
+    let contagem = 0; // Inicializa a variável contagem
+
+    // Adiciona um ouvinte de eventos para "click" no botão
+    botaoContador.addEventListener("click", function() {
+        contagem += 30; // Incrementa a contagem
+        contador.textContent = "Contagem: " + contagem; // Atualiza o texto do parágrafo com a nova contagem
+    });
+</script>
+
+</body>
+</html>
