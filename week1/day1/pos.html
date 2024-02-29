@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proof of Stake Simulation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #007bff;
+            font-size: 2.5em;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #validatorsList {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 500px;
+            text-align: left;
+        }
+        #validatorsList li {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #results, #roundCounter {
+            margin-top: 20px;
+        }
+        #roundCounter {
+            font-size: 1.5em;
+            color: #17a2b8;
+        }
+        .removeButton {
+            margin-left: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+        .removeButton:hover {
+            background-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+    <h1>Proof of Stake Simulation</h1>
+    <input type="text" id="validatorInput" placeholder="Enter Validator Name">
+    <input type="number" id="stakeInput" placeholder="Enter Stake">
+    <button onclick="addValidator()">Add Validator</button>
+    <button id="toggleButton" onclick="togglePoS()">Start</button>
+    <ul id="validatorsList">
+        <!-- Validators will be listed here -->
+    </ul>
+    <div id="roundCounter">Rounds: 0</div>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+    <script>
+        let isRunning = false;
+        let validators = {};
+        let result = {};
+        let rounds = 0;
+
+        function addValidator() {
+            const name = document.getElementById('validatorInput').value.trim();
+            const stake = parseInt(document.getElementById('stakeInput').value.trim(), 10);
+            if (name && !isNaN(stake)) {
+                validators[name] = stake;
+                result[name] = 0;
+                updateValidatorsList();
+                document.getElementById('validatorInput').value = '';
+                document.getElementById('stakeInput').value = '';
+            }
+        }
+
+        function updateValidatorsList() {
+            const list = document.getElementById('validatorsList');
+            list.innerHTML = '';
+            Object.keys(validators).forEach(validator => {
+                const li = document.createElement('li');
+                li.textContent = `${validator}: ${validators[validator]} stake, ${result[validator]} wins`;
+                list.appendChild(li);
+            });
+        }
+
+        function updateRoundCounter() {
+            document.getElementById('roundCounter').textContent = `Rounds: ${rounds}`;
+        }
+
+        function chooseValidator() {
+            const totalStake = Object.values(validators).reduce((a, b) => a + b, 0);
+            let lottery = Math.floor(Math.random() * totalStake) + 1;
+            let counter = 0;
+            for (const [validator, stake] of Object.entries(validators)) {
+                counter += stake;
+                if (lottery <= counter) {
+                    return validator;
+                }
+            }
+        }
+
+        function togglePoS() {
+            isRunning = !isRunning;
+            document.getElementById('toggleButton').textContent = isRunning ? 'Stop' : 'Start';
+            if (isRunning) {
+                const intervalId = setInterval(() => {
+                    if (!isRunning) {
+                        clearInterval(intervalId);
+                        return;
+                    }
+                    const chosenValidator = chooseValidator();
+                    result[chosenValidator]++;
+                    rounds++;
+                    updateValidatorsList();
+                    updateRoundCounter();
+                }, 1000);
+            }
+        }
+        function removeValidator(name) {
+            delete validators[name];
+            delete result[name];
+            updateValidatorsList();
+        }
+
+        function updateValidatorsList() {
+            const list = document.getElementById('validatorsList');
+            list.innerHTML = '';
+            Object.keys(validators).forEach(validator => {
+                const li = document.createElement('li');
+                li.textContent = `${validator}: ${validators[validator]} stake, ${result[validator]} wins`;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'Remove';
+                removeBtn.className = 'removeButton';
+                removeBtn.onclick = function() { removeValidator(validator); };
+                li.appendChild(removeBtn);
+                
+                list.appendChild(li);
+            });
+        }
+    </script>    
+</body>
+</html>
+

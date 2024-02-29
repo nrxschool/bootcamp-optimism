@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proof of Authority Simulation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 2.5em;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #validatorsList {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 500px;
+            text-align: left;
+        }
+
+        #validatorsList li {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #results,
+        #roundCounter {
+            margin-top: 20px;
+        }
+
+        #roundCounter {
+            font-size: 1.5em;
+            color: #17a2b8;
+        }
+
+        .removeButton {
+            margin-left: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .removeButton:hover {
+            background-color: #bd2130;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Proof of Authority Simulation</h1>
+    <input type="text" id="validatorInput" placeholder="Enter Validator Name">
+    <!-- Substituir stakeInput por um checkbox -->
+    <label><input type="checkbox" id="isMinerInput"> Is a Miner</label>
+    <button onclick="addValidator()">Add Validator</button>
+    <button id="toggleButton" onclick="togglePoA()">Start</button>
+    <ul id="validatorsList">
+        <!-- Validators will be listed here -->
+    </ul>
+    <div id="roundCounter">Rounds: 0</div>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+    <script>
+        let isRunning = false;
+        let validators = {};
+        let result = {};
+        let rounds = 0;
+
+        function addValidator() {
+            const name = document.getElementById('validatorInput').value.trim();
+            const isMiner = document.getElementById('isMinerInput').checked;
+            if (name) {
+                validators[name] = { isMiner, wins: 0 };
+                updateValidatorsList();
+                document.getElementById('validatorInput').value = '';
+                document.getElementById('isMinerInput').checked = false; // Reset checkbox
+            }
+        }
+
+        function updateValidatorsList() {
+            const list = document.getElementById('validatorsList');
+            list.innerHTML = '';
+            Object.keys(validators).forEach(validator => {
+                const li = document.createElement('li');
+                const validatorInfo = validators[validator];
+                li.textContent = `${validator}: ${validatorInfo.isMiner ? 'Miner' : 'Not a Miner'}, ${validatorInfo.wins} wins`;
+                // Adicionar checkbox para marcar/desmarcar como minerador
+                const minerCheckbox = document.createElement('input');
+                minerCheckbox.type = 'checkbox';
+                minerCheckbox.checked = validatorInfo.isMiner;
+                minerCheckbox.onchange = () => toggleMinerStatus(validator);
+                li.appendChild(minerCheckbox);
+                list.appendChild(li);
+            });
+        }
+
+        function toggleMinerStatus(validatorName) {
+            validators[validatorName].isMiner = !validators[validatorName].isMiner;
+            updateValidatorsList();
+        }
+
+        function togglePoA() {
+            isRunning = !isRunning;
+            document.getElementById('toggleButton').textContent = isRunning ? 'Stop' : 'Start';
+            if (isRunning) {
+                const intervalId = setInterval(() => {
+                    if (!isRunning) {
+                        clearInterval(intervalId);
+                        return;
+                    }
+                    const chosenValidator = chooseMiner();
+                    if (chosenValidator !== undefined) {
+                        validators[chosenValidator].wins++;
+                        rounds++;
+                        updateValidatorsList();
+                        updateRoundCounter();
+                    }
+                }, 1000);
+            }
+        }
+
+        function chooseMiner() {
+            const minerNames = Object.keys(validators).filter(name => validators[name].isMiner);
+            if (minerNames.length === 0) {
+                return undefined; // Nenhum minerador disponível
+            }
+            const randomIndex = Math.floor(Math.random() * minerNames.length);
+            return minerNames[randomIndex];
+        }
+
+        function updateRoundCounter() {
+            document.getElementById('roundCounter').textContent = `Rounds: ${rounds}`;
+        }
+
+
+    </script>
+</body>
+
+</html>

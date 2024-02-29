@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proof of Work Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff; /* Branco de fundo */
+            color: #333; /* Cor principal de texto */
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 2.5em; /* Tamanho grande para o título */
+            color: #ff4500; /* Cor laranja similar à da imagem */
+        }
+        button {
+            background-color: #ff4500; /* Cor laranja similar à da imagem */
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #e63e00; /* Um laranja mais escuro para o hover */
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 80%;
+            font-size: 1em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ff4500; /* Cor laranja similar à da imagem */
+            color: white;
+        }
+        td {
+            color: #333; /* Cor principal de texto */
+        }
+    </style>
+
+    <script>
+        let running = false;
+        let difficulty = 1;
+
+        async function proofOfWork(blockHash) {
+            let resultsTable = document.getElementById('results');
+            resultsTable.innerHTML = "<tr><th>Dificuldade</th><th>Nonce</th><th>Hash</th><th>Tempo (s)</th></tr>"; // Resetar tabela
+
+            while (running) {
+                const startTime = performance.now();
+                let nonce = 0;
+                while (true) {
+                    const attempt = `${blockHash}${nonce}`;
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(attempt));
+                    const hashArray = Array.from(new Uint8Array(hashBuffer)); // Converte para um array byte
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // Converte para hex
+
+                    if (hashHex.startsWith('0'.repeat(difficulty))) {
+                        const endTime = performance.now();
+                        const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
+                        resultsTable.innerHTML += `<tr><td>${difficulty}</td><td>${nonce}</td><td>${hashHex}</td><td>${timeTaken}</td></tr>`;
+                        difficulty++;
+                        break;
+                    }
+                    nonce++;
+                    if (!running) break; // Para o loop se o estado de execução mudar
+                }
+            }
+        }
+
+        function toggleProofOfWork() {
+            const blockHash = document.getElementById('dataInput').value; // Pega o valor do input
+            if (!running && blockHash) {
+                running = true;
+                document.getElementById('toggleButton').textContent = 'Stop';
+                proofOfWork(blockHash);
+            } else {
+                running = false;
+                document.getElementById('toggleButton').textContent = 'Start';
+                difficulty = 1; // Resetar a dificuldade quando parar
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Proof of Work Demo</h1>
+    <input type="text" id="dataInput" placeholder="Insira o dado para minerar">
+    <button id="toggleButton" onclick="toggleProofOfWork()">Start</button>
+    <table id="results">
+        <tr>
+            <th>Dificuldade</th>
+            <th>Nonce</th>
+            <th>Hash</th>
+            <th>Tempo (s)</th>
+        </tr>
+    </table>
+</body>
+</html>
