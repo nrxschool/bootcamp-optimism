@@ -39,7 +39,7 @@ Contrato:
 
 ### Operadores
 
-- Aritética: +, -, \*, /, %, \*\*.
+- Aritética: +, -, \*, /, %.
 - Atribuição: =, +=, -=.
 - Comparação: ==, ==, !=, >, <, >=, <=.
 - Lógicos: &&, ||, !.
