@@ -1,6 +1,5 @@
 # Bem-vindo ao Bootcamp/Hackathon Optimism
 
-
 ## SEMANA 1
 
 1. [Blockchain 101](./week1/day1/README.md)
@@ -11,8 +10,8 @@
 
 ## SEMANA 2
 
-1. Foundry 101
-2. ERC20
+1. [EVM](./week2/day1/README.md)
+2. [ERC20](./week2/day2/README.md)
 3. ERC721
 4. Segurança 101
 5. L1/L2 + Optimism
