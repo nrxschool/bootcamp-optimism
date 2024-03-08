@@ -13,7 +13,7 @@
 1. [EVM](./week2/day1/README.md)
 2. [ERC20](./week2/day2/README.md)
 3. [ERC721](./week2/day3/README.md)
-4. Segurança 101
+4. [Segurança 101](./week2/day4/README.md)
 5. L1/L2 + Optimism
 
 ## SEMANA 3
