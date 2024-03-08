@@ -17,7 +17,7 @@ contract EtherStore is ReentrancyGuard {
     function withdraw() public nonReentrant {
         uint256 bal = balances[msg.sender];
         // require(bal > 0);
-        if (bal <= 0) {
+        if (bal == 0) {
             revert InsufficientBalance();
         }
 
