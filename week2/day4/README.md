@@ -40,27 +40,39 @@
 
 - Reentrancy
 - Front Running
+
+> ---block
+> tx 2 - fee 100
+> tx 1 - fee 1 quem me pagar eu coloco
+>
+> ---
+
 - Access Control
 - DOS (https://solodit.xyz/issues/m-04-you-can-deposit-really-small-amount-for-other-users-to-dos-them-code4rena-centrifuge-centrifuge-git)
 
 ```js
 {
+  // const DUST = 0.00000000001 wei
     function participate() public{
-        require(balance[msg.sender]==0,'already won one time');
+      // 0.0000000000000000001 wei
+        // require(balance[msg.sender]>=0,'already won one time');
         require(participants[msg.sender] == false, 'already participating');
 
         participants[msg.sender] = true;
 
         token.transferFrom(msg.sender,address(this), FEE);
 
-        balance[msg.sender] = FEE:
+        // balance[msg.sender] = 10:
 
     }
 }
-
 ```
 
+https://solidity-by-example.org/hacks/denial-of-service/
+
 - Overflow (https://twitter.com/FelipeNovaesFR1/status/1735714011658727795)
+
+SafeMath.sol
 
 ## Boas Praticas
 
@@ -68,7 +80,7 @@
 - Liste os atores que vão interagir com suas funções externas. Dev/Test/Revisão Sec.
 - Use bibliotecas da OpenZeppelin https://docs.openzeppelin.com/contracts/5.x/
 - Ou Vectorized https://github.com/Vectorized/solady
-- Ser o máximo descentralizado e transparente possivel. (Owners serem Multisig, diminui a chance de Rug Pull)
+- Ser o máximo descentralizado e transparente possivel. (Owners serem Multisig, diminui a chance de Rug Pull) Safe
 - Escreva testes!
 - Use um analisador estatico de vuln, como Slither e Echidna/Foundry/Medusa pra fuzzing test
 
@@ -118,7 +130,7 @@ https://docs.soliditylang.org/en/v0.8.23/abi-spec.html#non-standard-packed-mode
 Qual o problema dessa função?
 
 ```js
-function burn(uint256 amount, address from) public {
+function burn(uint256 amount, address from)
 	_burn(amount, from);
 }
 ```
