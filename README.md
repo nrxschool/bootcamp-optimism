@@ -1,25 +1,66 @@
-# Bem-vindo ao Bootcamp/Hackathon Optimism
+## Foundry
 
-## SEMANA 1
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-1. [Blockchain 101](./week1/day1/README.md)
-2. [JavaScript 101](./week1/day2/README.md)
-3. [Criptografia 101](./week1/day3/README.md)
-4. [Bibliotecas web3](./week1/day4/README.md)
-5. [Solidity 101](./week1/day5/README.md)
+Foundry consists of:
 
-## SEMANA 2
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-1. [EVM](./week2/day1/README.md)
-2. [ERC20](./week2/day2/README.md)
-3. [ERC721](./week2/day3/README.md)
-4. [Segurança 101](./week2/day4/README.md)
-5. L1/L2 + Optimism
+## Documentation
 
-## SEMANA 3
+https://book.getfoundry.sh/
 
-1. Definição do projeto
-2. Criação do Roadmap
-3. Código
-4. Código
-5. Pitch
+## Usage
+
+### Build
+
+```shell
+$ forge build
+```
+
+### Test
+
+```shell
+$ forge test
+```
+
+### Format
+
+```shell
+$ forge fmt
+```
+
+### Gas Snapshots
+
+```shell
+$ forge snapshot
+```
+
+### Anvil
+
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
