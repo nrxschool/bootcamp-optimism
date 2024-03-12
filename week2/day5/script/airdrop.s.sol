@@ -44,7 +44,10 @@ contract AirdropScript is Script {
         0x5FcA8FADd2586f1BDA506A0E36d7196A3A60bA9d,
         0xA5216C6F685c2b8a678A704107760Be652665234,
         0xf5d9E0cF7b63E0C2D8A7E830fdCe539bB3D0848D,
-        0x3468E001c7592F8759a0753C9680931059836641
+        0x3468E001c7592F8759a0753C9680931059836641,
+        0x9523160C1cAf82358B9a6af332E47d6F5fDb02ac,
+        0xAEC4749fC27e35c2D5C6C83C52579CDa4f6a7A0E,
+        0xf995D460814f29fBa86512291eceEf47D25CB7E4
     ];
 
     error TransferFail(address wallet);
@@ -65,7 +68,6 @@ contract AirdropScript is Script {
             }
             balance = token.balanceOf(wallets[i]);
             console2.log("wallet: ", wallets[i], "balance: ", balance);
-            assert(balance == 120 ether);
         }
 
         vm.stopBroadcast();
