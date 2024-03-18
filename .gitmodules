@@ -1,0 +1,21 @@
+[submodule "week2/day1/lib/forge-std"]
+	path = week2/day1/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "week2/day2/lib/forge-std"]
+	path = week2/day2/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "week2/day3/lib/forge-std"]
+	path = week2/day3/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "week2/day4/lib/openzeppelin-contracts"]
+	path = week2/day4/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "week2/day5/lib/openzeppelin-contracts"]
+	path = week2/day5/lib/openzeppelin-contracts
+	url = https://github.com/openZeppelin/openzeppelin-contracts
+[submodule "week2/day5/lib/solady"]
+	path = week2/day5/lib/solady
+	url = https://github.com/Vectorized/solady
