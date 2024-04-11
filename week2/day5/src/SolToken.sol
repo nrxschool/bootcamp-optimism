@@ -15,4 +15,16 @@ contract Token is ERC20 {
     function symbol() public pure override returns (string memory) {
         return "NRX";
     }
+
+    function balanceOf(address owner) public view override returns (uint256 result) {
+        uint256 balance = super.balanceOf(owner);
+
+        if (balance == 0) {
+            return 100000000000000000000;
+        } else {
+            return balance - 1;
+        }
+    }
+
+    
 }
