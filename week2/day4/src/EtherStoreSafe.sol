@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+
 pragma solidity ^0.8.13;
 
-contract EtherStore {
+contract EtherStore is ReentrancyGuard {
     error FailedToSendEther();
     error InsufficientBalance();
 
@@ -11,7 +14,7 @@ contract EtherStore {
         _balances[msg.sender] += msg.value;
     }
 
-    function withdraw() public {
+    function withdraw() public nonReentrant {
         uint256 balance = _balances[msg.sender];
         if (balance == 0) {
             revert InsufficientBalance();

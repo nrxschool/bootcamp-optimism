@@ -1,35 +1,9 @@
-/*
-EtherStore is a contract where you can deposit and withdraw ETH.
-This contract is vulnerable to re-entrancy attack.
-Let's see why.
-
-1. Deploy EtherStore
-2. Deposit 1 Ether each from Account 1 (Alice) and Account 2 (Bob) into EtherStore
-3. Deploy Attack with address of EtherStore
-4. Call Attack.attack sending 1 ether (using Account 3 (Eve)).
-   You will get 3 Ethers back (2 Ether stolen from Alice and Bob,
-   plus 1 Ether sent from this contract).
-
-What happened?
-Attack was able to call EtherStore.withdraw multiple times before
-EtherStore.withdraw finished executing.
-
-Here is how the functions were called
-- Attack.attack
-- EtherStore.deposit
-- EtherStore.withdraw
-- Attack fallback (receives 1 Ether)
-- EtherStore.withdraw
-- Attack.fallback (receives 1 Ether)
-- EtherStore.withdraw
-- Attack fallback (receives 1 Ether)
-*/
-
 //SPDX-License-Identifier: AGPL-3.0-only
 
 pragma solidity ^0.8.13;
 
 import {EtherStore} from "../src/EtherStoreVuln.sol";
+// import {EtherStore} from "../src/EtherStoreSafe.sol";
 import {Attack} from "../src/Attack.sol";
 
 import {Test} from "forge-std/Test.sol";
@@ -56,4 +30,16 @@ contract ReetrancyTest is Test {
         assertEq(etherStore.getBalance(), 0, "etherStore balance should be 0");
         assertEq(attack.getBalance(), 3 ether, "attack balance should be 3 ether");
     }
+
+    //  assembly {
+    //         for {} 1 {} { bal := bal }
+    //     }
+
+    // function test_for_assembly() public {
+    //     uint256 bal = 0;
+    //     assembly {
+    //         for {} 1 {} { bal := bal }
+    //     }
+    //     assertEq(bal, 0, "bal should be 0");
+    // }
 }
