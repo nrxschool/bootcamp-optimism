@@ -26,3 +26,12 @@
 4. [Código](./week3/day4/README.md)
 5. [Pitch](./week3/day5/README.md)
 6. [Quiz 3](./week2/quiz/README.md)
+
+---
+
+# 💡 Este repositório é parte dos cursos, workshops ou bootcamps da NearX School.
+
+Quer acompanhar a aula completa em vídeo e entrar na comunidade? 
+👉 https://nearx.com.br/register | Comunidade: https://discord.com/invite/wavXA98gd8
+
+_NearX School: Aprenda o futuro, hoje._
